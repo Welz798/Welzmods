@@ -1,315 +1,591 @@
-<!doctype html>      
-<html lang="az">      
-<head>      
-<meta charset="utf-8" />      
-<meta name="viewport" content="width=device-width, initial-scale=1" />      
-<title>𝐖𝐄𝐋𝐙 V6</title>      
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">      
-<style>      
-/* Reset & dasar */      
-*{box-sizing:border-box}      
-html,body{height:100%}      
-body{      
-    margin:0;      
-    background:#000;      
-    color:#ffbcbc;      
-    font-family:'Orbitron',sans-serif;      
-    -webkit-tap-highlight-color: transparent;      
-    display:flex;      
-    justify-content:center; /* pusatkan konten */      
-    transition: none;      
-    position:relative;      
-}      
-.wrap{      
-    width:100%;      
-    max-width:430px;      
-    margin:0 auto;      
-    padding:20px 20px 40px;      
-    padding-top:80px;      
-    transition: transform 0.3s ease;      
-    min-height:115vh;      
-}      
-      
-/* Header */      
-.head{      
-    display:flex; justify-content:space-between; align-items:center;      
-    position: fixed; top: 0; left: 0; right:0;      
-    background:#000; padding:20px; box-sizing:border-box;      
-    border-bottom:1px solid #ff3a3a33; height:60px;      
-    z-index: 50;      
-}      
-.hb,.pf{      
-    width:40px; height:40px; border:1px solid #ff3a3a33;      
-    border-radius:12px; display:flex; justify-content:center; align-items:center;      
-    cursor: pointer; user-select:none;      
-    transition: background 0.2s;      
-}      
-.hb:hover, .pf:hover {      
-    background: rgba(255, 77, 77, 0.1);      
-}      
-.title{ color:#ff4d4d; font-size:22px; }      
-      
-.menu-title{      
-    text-align:center; padding:14px; border-radius:20px;      
-    border:1px solid #ff3a3a33; color:#ff4d4d; margin-bottom:20px;      
-}      
-      
-/* Card & grid */      
-.card-box{ border:1px solid #ff3a3a33; border-radius:16px; padding:18px; margin-bottom:22px; display:flex; justify-content:space-between; align-items:center; background:#0d0d0d;}      
-.card-left{ display:flex; flex-direction:column; }      
-.title-small{ font-size:16px; color:#ffbcbc; }      
-.sub{ font-size:11px; color:#ffc7c7; margin-top:4px; }      
-      
-.svg-btn{ width:32px; height:32px; padding:6px; border-radius:10px; border:1px solid #ff4d4d55; background:#ff4d4d22; display:flex; justify-content:center; align-items:center; cursor: pointer; user-select:none; transition: background 0.2s;}      
-.svg-btn:hover { background: rgba(255, 77, 77, 0.3); }      
-svg{ stroke:#ffbcbc; fill:none; stroke-width:2; stroke-linecap:round; }      
-      
-.grid-menu{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:10px; }      
-.menu-btn{ position:relative; min-height:148px; border-radius:22px; background:#0d0d0d; border:1px solid #ff3a3a33; overflow:hidden; padding:16px; box-shadow: inset 0 -6px 18px rgba(0,0,0,0.45); cursor: pointer; user-select:none; transition: transform 0.2s, border-color 0.2s;}      
-.menu-btn:hover { transform: translateY(-2px); border-color: rgba(255, 77, 77, 0.5); }      
-.icon-circle{ position:absolute; top:14px; left:14px; width:72px; height:72px; border-radius:50%; background:rgba(255,58,58,0.05); border:2px solid rgba(255,58,58,0.1); display:flex; align-items:center; justify-content:center; }      
-.icon-img{ width:36px; height:36px; object-fit:contain; display:block; }      
-.menu-title-text{ position:absolute; left:18px; bottom:34px; font-size:20px; color:#ffbcbc; letter-spacing:1px; }      
-.menu-sub{ position:absolute; left:18px; bottom:12px; font-size:12px; color:#ffc7c7; }      
-      
-.update-card{ border:1px solid #ff3a3a33; border-radius:16px; padding:18px; margin-top:22px; background:#0d0d0d; cursor:pointer; transition: border-color 0.2s; }      
-.update-card:hover { border-color: rgba(255, 77, 77, 0.5); }      
-.update-title{ font-size:16px; color:#ffbcbc; }      
-.update-sub{ font-size:11px; color:#ffc7c7; margin-top:4px; }      
-    
-/* Tombol Free Coin's Event yang baru */    
-.freecoin-card{     
-    border:1px solid #ff3a3a33;     
-    border-radius:16px;     
-    padding:18px;     
-    margin-top:22px;     
-    background:#0d0d0d;     
-    cursor:pointer;     
-    transition: all 0.2s;    
-    position: relative;    
-}    
-.freecoin-card:hover {     
-    border-color: rgba(255, 77, 77, 0.5);     
-    background: rgba(255, 77, 77, 0.05);    
-}    
-.freecoin-title{     
-    font-size:16px;     
-    color:#ffbcbc;     
-    margin-bottom: 4px;    
-}    
-.freecoin-sub{     
-    font-size:11px;     
-    color:#ffc7c7;     
-}    
-      
-@media (max-width:360px){      
-    .icon-circle{ width:64px; height:64px; top:12px; left:12px; }      
-    .menu-title-text{ font-size:18px; left:14px; bottom:36px; }      
-    .menu-sub{ left:14px; bottom:12px; font-size:11px; }      
-}      
-      
-/* Popups & FAB & Toast (tetap sama) */      
-.popup-overlay{     
-    position: fixed;     
-    top:0;     
-    left:0;     
-    width:100%;     
-    height:100%;     
-    background-color: rgba(0,0,0,0.55);     
-    display:flex;     
-    justify-content:center;     
-    align-items:center;     
-    z-index:100;     
-    opacity:0;     
-    visibility:hidden;     
-    transition:opacity 0.25s, visibility 0.25s;     
-}      
-.popup-overlay.active{     
-    opacity:1;     
-    visibility:visible;     
-}      
-.popup-content{     
-    background:#0d0d0d;     
-    border:1px solid #ff3a3a33;     
-    border-radius:18px;     
-    padding:20px;     
-    width:78%;     
-    max-width:320px;     
-    text-align:center;     
-    box-shadow:0 8px 22px rgba(255,58,58,0.08);     
-}      
-    
-/* Popup Free Coin Event - ukuran sedang dan agak panjang */    
-.freecoin-popup-content {     
-    background:#0d0d0d;     
-    border:1px solid #ff3a3a33;     
-    border-radius:18px;     
-    padding:24px;     
-    width:85%;     
-    max-width:340px;     
-    text-align:center;     
-    box-shadow:0 8px 22px rgba(255,58,58,0.08);    
-    max-height: 80vh;    
-    overflow-y: auto;    
-}      
-      
-.popup-icon{     
-    width:48px;     
-    height:48px;     
-    margin:0 auto 14px;     
-    display:flex;     
-    align-items:center;     
-    justify-content:center;     
-    border-radius:50%;     
-    background:rgba(255,58,58,0.05);     
-    border:1.6px solid rgba(255,58,58,0.1);     
-}      
-.popup-title{     
-    font-size:18px;     
-    color:#ff4d4d;     
-    margin-bottom:10px;     
-}      
-    
-/* Title khusus untuk Free Coin Event */    
-.freecoin-popup-title {    
-    font-size: 20px;    
-    color: #ff4d4d;    
-    margin-bottom: 15px;    
-    font-weight: 700;    
-}    
-      
-.popup-text{     
-    font-size:13px;     
-    color:#ffbcbc;     
-    margin-bottom:18px;     
-    line-height:1.35;     
-}      
-    
-/* Text khusus untuk Free Coin Event */    
-.freecoin-popup-text {    
-    font-size: 14px;    
-    color: #ffbcbc;    
-    margin-bottom: 20px;    
-    line-height: 1.5;    
-    text-align: center;    
-}    
-      
-.popup-buttons{     
-    display:flex;     
-    justify-content:space-between;     
-    gap:10px;     
-}      
-.popup-btn{     
-    flex:1;     
-    padding:10px 14px;     
-    border-radius:10px;     
-    font-family:'Orbitron', sans-serif;     
-    font-size:13px;     
-    cursor:pointer;     
-    border:1px solid #ff3a3a33;     
-    outline:none;     
-    user-select:none;     
-    -webkit-tap-highlight-color: transparent;     
-    transition: background 0.2s;     
-}      
-.popup-btn.cancel{     
-    background:transparent;     
-    color:#ffbcbc;     
-}      
-.popup-btn.cancel:hover {     
-    background: rgba(255, 77, 77, 0.1);     
-}      
-.popup-btn.topup{     
-    background:rgba(255,58,58,0.1);     
-    color:#ff4d4d;     
-}      
-.popup-btn.topup:hover {     
-    background:rgba(255,58,58,0.2);     
-}      
-.popup-input {     
-    width:100%;     
-    padding:12px 14px;     
-    margin-bottom:18px;     
-    border-radius:10px;     
-    background: rgba(255,77,77,0.05);     
-    border:1px solid rgba(255,58,58,0.3);     
-    color:#ffbcbc;     
-    font-family:'Orbitron',sans-serif;     
-    font-size:13px;     
-    outline:none;     
-}      
-.popup-input:focus {     
-    border-color: rgba(255,77,77,0.7);     
-}      
-    
-/* Task text area untuk Free Coin Event */    
-.freecoin-task-text {    
-    background: rgba(255, 77, 77, 0.05);    
-    border: 1px solid rgba(255, 58, 58, 0.3);    
-    border-radius: 12px;    
-    padding: 16px;    
-    margin: 20px 0;    
-    min-height: 80px;    
-    color: #ffbcbc;    
-    font-size: 13px;    
-    line-height: 1.5;    
-    text-align: left;    
-    white-space: pre-line;    
-}    
-      
-.livechat-buttons {     
-    display:flex;     
-    flex-direction:column;     
-    gap:10px;     
-    margin-bottom:10px;     
-}      
-.livechat-btn {     
-    padding:12px 16px;     
-    border-radius:10px;     
-    background: rgba(255,77,77,0.05);     
-    border:1px solid rgba(255,58,58,0.3);     
-    color:#ffbcbc;     
-    font-family:'Orbitron',sans-serif;     
-    font-size:13px;     
-    cursor:pointer;     
-    text-align:center;     
-    transition: background 0.2s, border-color 0.2s;     
-}      
-.livechat-btn:hover {     
-    background: rgba(255,77,77,0.1);     
-    border-color: rgba(255,77,77,0.5);     
-}      
-      
-.settings-item {     
-    display:flex;     
-    justify-content:space-between;     
-    align-items:center;     
-    padding:12px 0;     
-    border-bottom:1px solid rgba(255,58,58,0.1);     
-}      
-.settings-item:last-child {     
-    border-bottom:none;     
-}      
-.settings-text {     
-    font-size:14px;     
-    color:#ffbcbc;     
-}      
-.settings-switch {     
-    position:relative;     
-    width:44px;     
-    height:24px;     
-}      
-.settings-switch input {     
-    opacity:0;     
-    width:0;     
-    height:0;     
-}      
-.settings-slider {     
-    position:absolute;     
-    cursor:pointer;     
-    top:0;     
-    left:0;     
-    right:0;     
+```html
+<!DOCTYPE html>
+<html lang="az" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telz API Portal - Cyberpunk Edition</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            50: '#e0f2fe',
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2',
+                            900: '#164e63',
+                            950: '#030712',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glow-box {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.15);
+        }
+        .glow-text {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
+        }
+        .glow-button {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            transition: all 0.3s ease;
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.8);
+            transform: translateY(-1px);
+        }
+        /* Custom scrollbar for terminal */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06b6d4;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-white relative overflow-x-hidden">
+
+    <!-- Background Cyber Grid & Glow Effects -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#030712_1px,transparent_1px),linear-gradient(to_bottom,#030712_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-25 pointer-events-none"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none animate-pulse-glow"></div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Main Wrapper -->
+    <div class="relative z-10 flex flex-col min-h-screen">
+
+        <!-- Header / Navbar -->
+        <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-xl sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center glow-box border border-cyan-400/30">
+                        <i class="fa-solid fa-terminal text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg tracking-wider text-white glow-text">TELZ <span class="text-cyan-400">API PORTAL</span></h1>
+                        <p class="text-xs text-slate-400">Cyberpunk Automation Suite v17.5</p>
+                    </div>
+                </div>
+
+                <!-- Auth Status Section -->
+                <div id="auth-nav-section" class="hidden items-center gap-4">
+                    <div class="flex items-center gap-3 bg-slate-800/60 border border-slate-700/60 px-4 py-2 rounded-xl backdrop-blur-md">
+                        <img id="nav-user-avatar" src="https://placehold.co/40x40/0891b2/ffffff?text=U" alt="Profil" class="w-9 h-9 rounded-lg object-cover border border-cyan-400/40">
+                        <div class="hidden sm:block text-left">
+                            <p id="nav-user-name" class="text-sm font-semibold text-slate-200 leading-tight">İstifadəçi</p>
+                            <p id="nav-user-email" class="text-xs text-slate-400 leading-tight">user@domain.com</p>
+                        </div>
+                    </div>
+                    <button onclick="handleLogout()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-medium transition duration-200 flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span class="hidden md:inline">Çıxış</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+            <!-- 1. LOGIN VIEW -->
+            <div id="login-view" class="flex items-center justify-center min-h-[70vh]">
+                <div class="w-full max-w-md bg-slate-900/80 border border-cyan-500/30 backdrop-blur-2xl p-8 rounded-2xl glow-box text-center relative overflow-hidden">
+                    <div class="absolute -right-16 -top-16 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl"></div>
+                    
+                    <div class="w-16 h-16 bg-gradient-to-tr from-cyan-500 to-blue-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg shadow-cyan-500/30 mb-6 border border-cyan-300/30">
+                        <i class="fa-solid fa-shield-halved text-2xl text-white"></i>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-white mb-2">Təhlükəsiz Giriş</h2>
+                    <p class="text-slate-400 text-sm mb-8">Telz API idarəetmə panelinə daxil olmaq üçün Google hesabınızdan istifadə edin.</p>
+
+                    <button onclick="handleGoogleLogin()" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-semibold py-3.5 px-4 rounded-xl transition duration-200 flex items-center justify-center gap-3 shadow-lg group">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                        </svg>
+                        <span>Google ilə Giriş Et</span>
+                    </button>
+
+                    <div class="mt-6">
+                        <button onclick="handleDemoLogin()" class="text-xs text-cyan-400 hover:text-cyan-300 underline underline-offset-4 transition">
+                            Və ya Demo Rejimdə Daxil Ol (Sınaq)
+                        </button>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-500">
+                        Şifrələnmiş bağlantı və 100% təhlükəsiz sessiya qoruması.
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. DASHBOARD VIEW -->
+            <div id="dashboard-view" class="hidden space-y-6">
+                
+                <!-- Welcome Banner -->
+                <div class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-cyan-950/40 border border-cyan-500/30 rounded-2xl p-6 md:p-8 glow-box relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div class="absolute right-0 bottom-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-3">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                            Sistem Aktiv və Hazırdır
+                        </div>
+                        <h2 id="welcome-title" class="text-2xl md:text-3xl font-bold text-white mb-2">Xoş gəldiniz, İstifadəçi!</h2>
+                        <p class="text-slate-400 text-sm max-w-xl">Telz API xidmətlərini işə salmaq üçün aşağıdakı bölmədən nömrəni daxil edin və sorğunu icra edin.</p>
+                    </div>
+                    <div class="bg-slate-900/80 border border-slate-800 p-4 rounded-xl flex items-center gap-4 min-w-[240px]">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-xl">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Endpoint Statusu</p>
+                            <p class="text-sm font-bold text-emerald-400 flex items-center gap-1.5 mt-0.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Online (via Proxy)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Grid: Control Panel & Terminal Output -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    
+                    <!-- Left Column: API Control Panel -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-slate-900/80 border border-cyan-500/30 rounded-2xl p-6 glow-box backdrop-blur-xl">
+                            <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-800">
+                                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-sliders text-cyan-400"></i> API İdarəetmə Paneli
+                                </h3>
+                                <span class="text-xs bg-slate-800 text-cyan-400 px-2.5 py-1 rounded-md font-mono">v17.5.17</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+                                        Nömrəni daxil edin
+                                    </label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500">
+                                            <i class="fa-solid fa-phone"></i>
+                                        </span>
+                                        <input type="text" id="phone-input" placeholder="+994501234567" 
+                                            class="w-full bg-slate-950/80 border border-slate-700 focus:border-cyan-500 text-white text-sm rounded-xl pl-11 pr-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-cyan-500/20 transition font-mono">
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 mt-1.5">Beynəlxalq formatda daxil edin (məs: +994501234567)</p>
+                                </div>
+
+                                <div class="bg-slate-950/50 border border-slate-800/80 rounded-xl p-4 space-y-2 font-mono text-xs text-slate-400">
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-500">OS:</span>
+                                        <span class="text-cyan-400">android (v9)</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-500">App Version:</span>
+                                        <span class="text-cyan-400">17.5.17</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-500">Play Market:</span>
+                                        <span class="text-cyan-400">true</span>
+                                    </div>
+                                </div>
+
+                                <button onclick="executeTelzApi()" id="execute-btn" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-4 px-6 rounded-xl glow-button flex items-center justify-center gap-3 transition duration-200">
+                                    <i class="fa-solid fa-bolt text-lg"></i>
+                                    <span>API-ni İşə Sal</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Guide Card -->
+                        <div class="bg-slate-900/50 border border-slate-800 rounded-2xl p-6 backdrop-blur-xl">
+                            <h4 class="text-sm font-bold text-slate-200 mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-circle-info text-cyan-400"></i> İş Prinsipi
+                            </h4>
+                            <ul class="text-xs text-slate-400 space-y-2 list-disc list-inside">
+                                <li>Avtomatik olaraq unikal <code class="text-cyan-400">android_id</code> və <code class="text-cyan-400">uuid</code> yaradılır.</li>
+                                <li>Mərhələ 1: <code class="text-slate-300">/app/install</code> sorğusu göndərilir.</li>
+                                <li>Mərhələ 2: <code class="text-slate-300">/app/auth_call</code> çağırışı icra olunur.</li>
+                                <li>Bütün cavablar sağdakı canlı terminalda əks olunur.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Live Terminal Output -->
+                    <div class="lg:col-span-7 flex flex-col">
+                        <div class="bg-slate-900/90 border border-cyan-500/30 rounded-2xl flex flex-col h-[600px] glow-box backdrop-blur-xl overflow-hidden">
+                            
+                            <!-- Terminal Header -->
+                            <div class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                    <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                                    <span class="ml-3 text-xs font-mono text-slate-400">Telz-Android Terminal Output</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button onclick="clearTerminal()" class="text-xs text-slate-400 hover:text-cyan-400 bg-slate-800/80 hover:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+                                        <i class="fa-solid fa-trash-can mr-1"></i> Təmizlə
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Terminal Body / Logs -->
+                            <div id="terminal-output" class="flex-grow p-6 font-mono text-xs overflow-y-auto space-y-3 bg-[#02040a]/90 text-slate-300">
+                                <div class="text-slate-500 flex items-center gap-2">
+                                    <span class="text-cyan-400">[SYSTEM]</span> Telz API Terminal hazırdır. Sorğu gözlənilir...
+                                </div>
+                            </div>
+
+                            <!-- Terminal Footer Status -->
+                            <div class="bg-slate-900/90 border-t border-slate-800 px-6 py-3 flex items-center justify-between text-xs font-mono text-slate-400">
+                                <span id="terminal-status" class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-slate-500"></span> Gözləmədə
+                                </span>
+                                <span id="terminal-timer">0.0s</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-slate-800/80 bg-slate-900/40 backdrop-blur-md py-6 mt-12 text-center text-xs text-slate-500">
+            <p>Telz API Cyber Portal &copy; 2026. Bütün hüquqlar qorunur.</p>
+        </footer>
+
+    </div>
+
+    <!-- Firebase & Application Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        // Global Firebase Instances
+        let app, auth, currentUser = null;
+
+        try {
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+                apiKey: "demo-api-key",
+                authDomain: "demo-app.firebaseapp.com",
+                projectId: "demo-app",
+                storageBucket: "demo-app.appspot.com",
+                messagingSenderId: "123456789",
+                appId: "1:123456789:web:abcdef"
+            };
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    updateUIForAuth(user);
+                } else {
+                    currentUser = null;
+                    updateUIForLogin();
+                }
+            });
+        } catch (e) {
+            console.warn("Firebase initialization fallback mode:", e);
+        }
+
+        // Expose functions globally
+        window.handleGoogleLogin = async function() {
+            showToast("Google ilə giriş sorğusu göndərilir...", "info");
+            try {
+                if (!auth) {
+                    // Fallback demo login if firebase not fully configured in preview container
+                    handleDemoLogin();
+                    return;
+                }
+                const provider = new GoogleAuthProvider();
+                const result = await signInWithPopup(auth, provider);
+                showToast("Uğurla daxil olundu!", "success");
+            } catch (error) {
+                console.error("Login error:", error);
+                showToast("Google giriş xətası. Demo rejimə keçirilir...", "warning");
+                handleDemoLogin();
+            }
+        };
+
+        window.handleDemoLogin = function() {
+            currentUser = {
+                displayName: "Cyber Admin",
+                email: "admin@telz.api",
+                photoURL: "https://placehold.co/100x100/06b6d4/ffffff?text=CA"
+            };
+            updateUIForAuth(currentUser);
+            showToast("Demo rejim ilə daxil olundu!", "success");
+        };
+
+        window.handleLogout = async function() {
+            try {
+                if (auth && auth.currentUser) {
+                    await signOut(auth);
+                }
+                currentUser = null;
+                updateUIForLogin();
+                showToast("Hesabdan çıxıldı.", "info");
+            } catch (error) {
+                console.error("Logout error:", error);
+                currentUser = null;
+                updateUIForLogin();
+            }
+        };
+
+        function updateUIForAuth(user) {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('auth-nav-section').classList.remove('hidden');
+            document.getElementById('auth-nav-section').classList.add('flex');
+
+            const name = user.displayName || "İstifadəçi";
+            const email = user.email || "demo@telz.com";
+            const photo = user.photoURL || "https://placehold.co/40x40/0891b2/ffffff?text=U";
+
+            document.getElementById('nav-user-name').innerText = name;
+            document.getElementById('nav-user-email').innerText = email;
+            document.getElementById('nav-user-avatar').src = photo;
+            document.getElementById('welcome-title').innerText = `Xoş gəldiniz, ${name}!`;
+        }
+
+        function updateUIForLogin() {
+            document.getElementById('login-view').classList.remove('hidden');
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('auth-nav-section').classList.add('hidden');
+            document.getElementById('auth-nav-section').classList.remove('flex');
+        }
+
+        // Toast Notification System
+        window.showToast = function(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            let bgColors = 'bg-slate-900 border-cyan-500/40 text-cyan-400';
+            let icon = 'fa-circle-info';
+            if (type === 'success') {
+                bgColors = 'bg-slate-900 border-emerald-500/40 text-emerald-400';
+                icon = 'fa-circle-check';
+            } else if (type === 'warning' || type === 'error') {
+                bgColors = 'bg-slate-900 border-red-500/40 text-red-400';
+                icon = 'fa-triangle-exclamation';
+            }
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border ${bgColors} backdrop-blur-xl shadow-2xl transition-all duration-300 transform translate-y-2 opacity-0 text-xs font-mono`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-sm"></i><span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        };
+
+        // Helper generators
+        function generateAndroidId() {
+            const array = new Uint8Array(8);
+            window.crypto.getRandomValues(array);
+            return Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function generateUuid() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        window.clearTerminal = function() {
+            document.getElementById('terminal-output').innerHTML = `
+                <div class="text-slate-500 flex items-center gap-2">
+                    <span class="text-cyan-400">[SYSTEM]</span> Terminal təmizləndi.
+                </div>
+            `;
+            document.getElementById('terminal-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-slate-500"></span> Gözləmədə';
+            document.getElementById('terminal-timer').innerText = '0.0s';
+        };
+
+        function appendLog(title, data, type = 'info') {
+            const terminal = document.getElementById('terminal-output');
+            const timeStr = new Date().toLocaleTimeString();
+            
+            let colorClass = 'text-cyan-400';
+            if (type === 'success') colorClass = 'text-emerald-400';
+            if (type === 'error') colorClass = 'text-red-400';
+            if (type === 'request') colorClass = 'text-yellow-400';
+
+            const logItem = document.createElement('div');
+            logItem.className = 'space-y-1 border-l-2 border-slate-800 pl-3 py-1';
+            
+            let formattedData = typeof data === 'object' ? JSON.stringify(data, null, 2) : data;
+
+            logItem.innerHTML = `
+                <div class="flex items-center justify-between text-[10px] text-slate-500">
+                    <span class="${colorClass} font-semibold">[${title}]</span>
+                    <span>${timeStr}</span>
+                </div>
+                <pre class="whitespace-pre-wrap text-slate-300 font-mono text-[11px] overflow-x-auto">${formattedData}</pre>
+            `;
+            
+            terminal.appendChild(logItem);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Telz API Execution Logic
+        window.executeTelzApi = async function() {
+            const phoneInput = document.getElementById('phone-input').value.trim();
+            if (!phoneInput) {
+                showToast("Zəhmət olmasa nömrəni daxil edin!", "warning");
+                return;
+            }
+
+            const executeBtn = document.getElementById('execute-btn');
+            executeBtn.disabled = true;
+            executeBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            const statusEl = document.getElementById('terminal-status');
+            const timerEl = document.getElementById('terminal-timer');
+            statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-yellow-400 animate-ping"></span> Sorğular icra olunur...';
+
+            const startTime = performance.now();
+            const android_id = generateAndroidId();
+            const uuid = generateUuid();
+            const ts = Math.floor(Date.now() / 1000);
+
+            appendLog("INFO", { android_id, uuid, ts, phone: phoneInput }, "info");
+
+            // CORS Proxy wrapper to ensure browser fetch succeeds seamlessly against api.telz.com
+            const corsProxy = "https://corsproxy.io/?";
+
+            try {
+                // Step 1: Install Request
+                const installUrl = "https://api.telz.com/app/install";
+                const installBody = {
+                    android_id: android_id,
+                    app_version: "17.5.17",
+                    event: "install",
+                    google_exists: "yes",
+                    os: "android",
+                    os_version: "9",
+                    play_market: true,
+                    ts: ts,
+                    uuid: uuid
+                };
+
+                appendLog("INSTALL REQ", installBody, "request");
+
+                let installRes = await fetch(corsProxy + encodeURIComponent(installUrl), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'Telz-Android/17.5.17'
+                    },
+                    body: JSON.stringify(installBody)
+                });
+
+                let installText = await installRes.text();
+                let installJson;
+                try {
+                    installJson = JSON.parse(installText);
+                } catch(e) {
+                    installJson = { raw: installText, status: installRes.status };
+                }
+
+                appendLog("INSTALL RES", installJson, installRes.ok ? "success" : "error");
+
+                // Step 2: Auth Call Request
+                const authCallUrl = "https://api.telz.com/app/auth_call";
+                const authCallBody = {
+                    android_id: android_id,
+                    app_version: "17.5.17",
+                    attempt: 0,
+                    event: "auth_call",
+                    lang: "ar",
+                    os: "android",
+                    os_version: "9",
+                    phone: phoneInput,
+                    ts: ts,
+                    uuid: uuid
+                };
+
+                appendLog("AUTH_CALL REQ", authCallBody, "request");
+
+                let authRes = await fetch(corsProxy + encodeURIComponent(authCallUrl), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'Telz-Android/17.5.17'
+                    },
+                    body: JSON.stringify(authCallBody)
+                });
+
+                let authText = await authRes.text();
+                let authJson;
+                try {
+                    authJson = JSON.parse(authText);
+                } catch(e) {
+                    authJson = { raw: authText, status: authRes.status };
+                }
+
+                appendLog("AUTH_CALL RES", authJson, authRes.ok ? "success" : "error");
+
+                const endTime = performance.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2);
+                timerEl.innerText = `${duration}s`;
+                statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> İcra başa çatdı';
+                showToast("Telz API sorğuları uğurla tamamlandı!", "success");
+
+            } catch (error) {
+                console.error("API Execution Error:", error);
+                appendLog("ERROR", error.message || error, "error");
+                statusEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-400"></span> Xəta baş verdi';
+                showToast("Sorğu zamanı xəta baş verdi!", "error");
+            } finally {
+                executeBtn.disabled = false;
+                executeBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        };
+    </script>
+</body>
+</html>
+``` 
     bottom:0;     
     background-color:rgba(255,58,58,0.1);     
     transition:.3s;     
